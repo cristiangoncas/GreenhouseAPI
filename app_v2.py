@@ -54,6 +54,21 @@ def register_log():
     conn.close()
     return jsonify({"status": "success"}), 201
 
+@app.route('/fetchLastLog', methods=['GET'])
+def fet_last_log():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM logs ORDER BY id DESC LIMIT 1')
+    rows = cursor.fetchall()
+    conn.close()
+    formatted_log = {
+        "id": row[0],
+        "time": row[1],
+        "event": row[2],
+        "data": row[3]
+    }
+    return jsonify(formatted_log), 200
+
 @app.route('/fetchLogs', methods=['GET'])
 def fetch_logs():
     last_24_hours = datetime.now(target_timezone) - timedelta(days=1)

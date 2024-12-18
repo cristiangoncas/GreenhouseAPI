@@ -10,7 +10,8 @@ app = Flask(__name__)
 target_timezone = timezone("America/Toronto")
 app.config['DEFAULT_TIMEZONE'] = target_timezone
 CORS(app)
-DATABASE = 'greenhouse.db'
+
+DATABASE = './greenhouse.db'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 heartbeat_data = {}  # Dictionary to store heartbeat data
@@ -55,12 +56,16 @@ def register_log():
     return jsonify({"status": "success"}), 201
 
 @app.route('/fetchLastLog', methods=['GET'])
-def fet_last_log():
+def fetch_last_log():
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM logs ORDER BY id DESC LIMIT 1')
-    rows = cursor.fetchall()
+    row = cursor.fetchone()  # Use fetchone() instead of fetchall()
     conn.close()
+
+    if row is None:
+        return jsonify({"error": "No logs found"}), 404
+
     formatted_log = {
         "id": row[0],
         "time": row[1],

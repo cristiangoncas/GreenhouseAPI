@@ -1,0 +1,11 @@
+
+services:
+  greenhouse-api:
+    build: .
+    container_name: greenhouse-api
+    ports:
+      - "3000:3000"
+    environment:
+      - FLASK_APP=app_v2.py
+      - FLASK_ENV=production
+    restart: unless-stopped 

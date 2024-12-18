@@ -1,7 +1,9 @@
 
 services:
   greenhouse-api:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
     container_name: greenhouse-api
     ports:
       - "3000:3000"

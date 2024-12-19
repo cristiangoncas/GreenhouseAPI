@@ -4,6 +4,7 @@ import sqlite3
 from datetime import datetime, timedelta
 import logging
 from pytz import timezone
+import os  # Add this import
 
 app = Flask(__name__)
 # Define timezone
@@ -11,7 +12,7 @@ target_timezone = timezone("America/Toronto")
 app.config['DEFAULT_TIMEZONE'] = target_timezone
 CORS(app)
 
-DATABASE = './greenhouse.db'
+DATABASE = os.getenv('GREENHOUSE_DB_PATH', './greenhouse.db')
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 heartbeat_data = {}  # Dictionary to store heartbeat data

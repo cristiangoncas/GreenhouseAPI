@@ -18,6 +18,7 @@ The system is guided by parameters such as:
 - **Minimum/maximum humidity**
 
 To mimic natural day/night cycles, the system lowers the minimum required temperature at night and raises it during the day. If the temperature falls below the threshold, the heater turns on. When it rises above the threshold, the heater turns off.
+
 These parameters are constants on the microcontroller but can be remotely updated. The ESP32 makes periodic API requests (heartbeat) to check for changes such as sunrise/sunset times or new temperature limits. Updated parameters are stored in memory but reset to defaults on restart.
 
 ### Android App
